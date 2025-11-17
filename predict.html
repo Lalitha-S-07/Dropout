@@ -1,0 +1,707 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Dropout Prediction - DeserveIQ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    /* Premium gradient background */
+    .gradient-bg {
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    }
+    
+    /* Glass morphism effect */
+    .glass {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+    
+    /* Premium input styling */
+    .premium-input {
+      border: 1px solid #e5e7eb;
+      padding-left: 48px !important;
+      transition: all 0.3s ease;
+    }
+    
+    .premium-input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      outline: none;
+    }
+    
+    /* Icon inside input */
+    .input-icon {
+      position: absolute;
+      left: 16px;
+      bottom:0%;
+      transform: translateY(-50%);
+      color: #6b7280;
+    }
+    
+    /* Premium card styling */
+    .premium-card {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .premium-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Button styling */
+    .premium-btn {
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+      transition: all 0.3s ease;
+    }
+    
+    .premium-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(30, 58, 138, 0.3);
+    }
+    
+    /* Loading animation */
+    .loader {
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top: 3px solid white;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Progress bar styling */
+    .progress-bar {
+      height: 8px;
+      border-radius: 4px;
+      background-color: #e5e7eb;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      transition: width 1s ease-in-out;
+    }
+    
+    /* Tooltip styling */
+    .tooltip {
+      position: relative;
+    }
+    
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 200px;
+      background-color: #1f2937;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 8px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -100px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+    
+    /* Feature card animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.8s ease-out;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-gray-50">
+  <!-- Hero Section -->
+  <div class="gradient-bg text-white">
+    <div class="container mx-auto px-6 py-16">
+      <div class="flex flex-col md:flex-row items-center">
+        <div class="md:w-1/2 mb-8 md:mb-0 fade-in">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">DeserveIQ</h1>
+          <p class="text-xl mb-6 text-blue-100">Advanced Student Dropout Prediction System</p>
+          <p class="mb-8 text-blue-50">Leveraging machine learning to identify at-risk students and enable timely interventions for better educational outcomes.</p>
+          <div class="flex space-x-4">
+            <button class="bg-white text-blue-900 font-semibold py-2 px-6 rounded-lg hover:bg-blue-50 transition">
+              <i class="fas fa-play-circle mr-2"></i>Watch Demo
+            </button>
+           
+          </div>
+        </div>
+        <div class="md:w-1/2 flex justify-center">
+          <img src="https://img.freepik.com/premium-photo/group-happy-indian-school-students-smiling-camera-white-background_979520-48814.jpg?w=2000" alt="Education" class="rounded-lg shadow-2xl">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container mx-auto px-6 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Prediction Form -->
+      <div class="lg:col-span-2">
+        <div class="premium-card bg-white p-8">
+          <div class="flex items-center mb-6">
+            <div class="bg-blue-100 p-3 rounded-lg mr-4">
+              <i class="fas fa-graduation-cap text-blue-600 text-xl"></i>
+            </div>
+            <div>
+              <h2 class="text-2xl font-bold text-gray-800">Student Information</h2>
+              <p class="text-gray-600">Enter student details to predict dropout risk</p>
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Monthly Family Income -->
+            <div class="relative">
+              <label class="text-gray-700 font-medium mb-2 block tooltip">
+                Monthly Family Income
+                <span class="tooltiptext">Total monthly income of the student's family in USD</span>
+              </label>
+              <i class="fas fa-dollar-sign input-icon w-5 h-5"></i>
+              <input id="income" type="number" class="premium-input w-full p-3 rounded-lg bg-white" placeholder="e.g. 5000">
+            </div>
+
+            <!-- Current CGPA -->
+            <div class="relative">
+              <label class="text-gray-700 font-medium mb-2 block tooltip">
+                Current CGPA
+                <span class="tooltiptext">Cumulative Grade Point Average on a 4.0 scale</span>
+              </label>
+              <i class="fas fa-chart-line input-icon w-5 h-5"></i>
+              <input id="cgpa" type="number" step="0.01" class="premium-input w-full p-3 rounded-lg bg-white" placeholder="e.g. 3.5">
+            </div>
+
+            <!-- Physical Verification -->
+            <div class="relative">
+              <label class="text-gray-700 font-medium mb-2 block tooltip">
+                Physical Verification Score
+                <span class="tooltiptext">Score from physical verification assessment (0-100)</span>
+              </label>
+              <i class="fas fa-clipboard-check input-icon w-5 h-5"></i>
+              <input id="pv" type="number" class="premium-input w-full p-3 rounded-lg bg-white" placeholder="e.g. 10">
+            </div>
+
+            <!-- Siblings Count -->
+            <div class="relative">
+              <label class="text-gray-700 font-medium mb-2 block tooltip">
+                Siblings Count
+                <span class="tooltiptext">Number of siblings student has</span>
+              </label>
+              <i class="fas fa-users input-icon w-5 h-5"></i>
+              <input id="siblings" type="number" class="premium-input w-full p-3 rounded-lg bg-white" placeholder="e.g. 2">
+            </div>
+
+            <!-- Parents Employed -->
+            <div class="relative">
+              <label class="text-gray-700 font-medium mb-2 block tooltip">
+                Parents Employed
+                <span class="tooltiptext">Number of parents who are currently employed</span>
+              </label>
+              <i class="fas fa-briefcase input-icon w-5 h-5"></i>
+              <select id="parents" class="premium-input w-full p-3 rounded-lg bg-white">
+                <option value="0">None</option>
+                <option value="1">One Parent</option>
+                <option value="2">Both Parents</option>
+              </select>
+            </div>
+
+            <!-- School Type -->
+            <div class="relative">
+              <label class="text-gray-700 font-medium mb-2 block tooltip">
+                School Type
+                <span class="tooltiptext">Type of school student attends</span>
+              </label>
+              <i class="fas fa-school input-icon w-5 h-5"></i>
+              <select id="school" class="premium-input w-full p-3 rounded-lg bg-white">
+                <option value="1">Government</option>
+                <option value="0">Private</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Predict Button -->
+          <button onclick="predict()" id="predictBtn" class="premium-btn w-full text-white py-4 text-lg font-semibold rounded-lg mt-8 flex items-center justify-center">
+            <i class="fas fa-chart-line mr-2"></i>
+            <span id="btnText">Predict Dropout Risk</span>
+            <div id="btnLoader" class="loader ml-2 hidden"></div>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Sidebar -->
+      <div class="lg:col-span-1">
+        <!-- Feature Card -->
+        <div class="premium-card bg-white p-6 mb-6">
+          <h3 class="text-xl font-bold text-gray-800 mb-4">Model Features</h3>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+              <span class="text-gray-700">Machine Learning Powered</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+              <span class="text-gray-700">Real-time Prediction</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+              <span class="text-gray-700">Explainable AI (LIME)</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+              <span class="text-gray-700">94% Accuracy</span>
+            </li>
+          </ul>
+        </div>
+        
+        
+        
+       
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Results Section -->
+    <div id="resultsSection" class="hidden mt-12">
+      <div class="premium-card bg-white p-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Prediction Results</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Risk Score -->
+          <div class="bg-gray-50 p-6 rounded-lg">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Risk Assessment</h3>
+            <div class="flex items-center justify-center mb-4">
+              <div class="relative">
+                <canvas id="riskChart" width="200" height="200"></canvas>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="text-center">
+                    <div id="riskPercentage" class="text-3xl font-bold">0%</div>
+                    <div class="text-sm text-gray-600">Risk Level</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="riskInterpretation" class="text-center text-gray-700"></div>
+          </div>
+          
+          <!-- Retention Score -->
+          <div class="bg-gray-50 p-6 rounded-lg">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Retention Potential</h3>
+            <div class="flex items-center justify-center mb-4">
+              <div class="relative">
+                <canvas id="retentionChart" width="200" height="200"></canvas>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="text-center">
+                    <div id="retentionPercentage" class="text-3xl font-bold">0%</div>
+                    <div class="text-sm text-gray-600">Retention Score</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="retentionInterpretation" class="text-center text-gray-700"></div>
+          </div>
+        </div>
+        
+        <!-- Explanation Section -->
+        <div class="mt-8 bg-blue-50 p-6 rounded-lg">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">Key Factors</h3>
+          <div id="explanation" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </div>
+        
+        <!-- Recommendations -->
+        <div class="mt-8 bg-green-50 p-6 rounded-lg">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">Recommended Actions</h3>
+          <div id="recommendations" class="space-y-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <footer class="gradient-bg text-white mt-16">
+    <div class="container mx-auto px-6 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4">DeserveIQ</h3>
+          <p class="text-blue-100">Empowering educators with AI-driven insights to improve student retention.</p>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Product</h4>
+          <ul class="space-y-2 text-blue-100">
+            <li><a href="#" class="hover:text-white transition">Features</a></li>
+            <li><a href="#" class="hover:text-white transition">Pricing</a></li>
+            <li><a href="#" class="hover:text-white transition">Case Studies</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Resources</h4>
+          <ul class="space-y-2 text-blue-100">
+            <li><a href="#" class="hover:text-white transition">Documentation</a></li>
+            <li><a href="#" class="hover:text-white transition">API Reference</a></li>
+            <li><a href="#" class="hover:text-white transition">Research</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Connect</h4>
+          <div class="flex space-x-4">
+            <a href="#" class="text-blue-100 hover:text-white transition"><i class="fab fa-twitter text-xl"></i></a>
+            <a href="#" class="text-blue-100 hover:text-white transition"><i class="fab fa-linkedin text-xl"></i></a>
+            <a href="#" class="text-blue-100 hover:text-white transition"><i class="fab fa-github text-xl"></i></a>
+            <a href="#" class="text-blue-100 hover:text-white transition"><i class="fab fa-facebook text-xl"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-blue-700 mt-8 pt-8 text-center text-blue-100">
+        <p>&copy; 2023 DeserveIQ. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+<script>
+let riskChart = null;
+let retentionChart = null;
+
+async function predict() {
+  // Show loading state
+  const btnText = document.getElementById("btnText");
+  const btnLoader = document.getElementById("btnLoader");
+  const predictBtn = document.getElementById("predictBtn");
+  
+  btnText.textContent = "Processing...";
+  btnLoader.classList.remove("hidden");
+  predictBtn.disabled = true;
+  
+  // Hide previous results
+  document.getElementById("resultsSection").classList.add("hidden");
+
+  const toNum = (v, f = false) =>
+    v === "" ? 0 : (f ? parseFloat(v) : parseInt(v, 10));
+
+  const data = {
+    Family_Income_Monthly: toNum(income.value),
+    Current_CGPA: toNum(cgpa.value, true),
+    Physical_Verification_Score: toNum(pv.value),
+    Siblings_Count: toNum(siblings.value),
+    Parents_Employed: toNum(parents.value),
+    School_Type_Public: toNum(school.value)
+  };
+
+  try {
+    const res = await fetch("http://127.0.0.1:8000/predict", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(data)
+    });
+
+    const output = await res.json();
+    console.log("API Response:", output);
+    
+    // Extract values from the API response
+    let dropout = 0;
+    let retention = 0;
+    let explanation = "";
+    
+    output.forEach(item => {
+      if (item.dropout_likelihood !== undefined) {
+        dropout = item.dropout_likelihood;
+      }
+      if (item.retension_score !== undefined) {
+        retention = item.retension_score;
+      }
+      if (item.explanation !== undefined) {
+        explanation = item.explanation;
+      }
+    });
+
+    // Update UI with results - pass the data variable as well
+    displayResults(dropout, retention, output, explanation, data);
+    
+  } catch (e) {
+    console.error("Error:", e);
+    // Show error message
+    const errorDiv = document.createElement("div");
+    errorDiv.className = "bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mt-4";
+    errorDiv.innerHTML = `
+      <div class="flex">
+        <div class="py-1">
+          <i class="fas fa-exclamation-circle text-red-500 mr-4"></i>
+        </div>
+        <div>
+          <p class="font-bold">Error</p>
+          <p class="text-sm">${e.message}</p>
+        </div>
+      </div>
+    `;
+    
+    document.getElementById("resultsSection").appendChild(errorDiv);
+    document.getElementById("resultsSection").classList.remove("hidden");
+  } finally {
+    // Reset button state
+    btnText.textContent = "Predict Dropout Risk";
+    btnLoader.classList.add("hidden");
+    predictBtn.disabled = false;
+  }
+}
+
+function displayResults(dropout, retention, output, explanation, inputData) {
+  // Show results section
+  document.getElementById("resultsSection").classList.remove("hidden");
+  
+  // Update risk percentage
+  const riskPercentage = document.getElementById("riskPercentage");
+  riskPercentage.textContent = `${dropout}%`;
+  
+  // Update risk interpretation
+  const riskInterpretation = document.getElementById("riskInterpretation");
+  let riskLevel = "Low";
+  let riskColor = "text-green-600";
+  
+  if (dropout > 70) {
+    riskLevel = "High";
+    riskColor = "text-red-600";
+  } else if (dropout > 40) {
+    riskLevel = "Medium";
+    riskColor = "text-yellow-600";
+  }
+  
+  riskInterpretation.innerHTML = `<p class="${riskColor} font-semibold">${riskLevel} Risk of Dropout</p>`;
+  
+  // Update retention percentage
+  const retentionPercentage = document.getElementById("retentionPercentage");
+  retentionPercentage.textContent = `${retention}%`;
+  
+  // Update retention interpretation
+  const retentionInterpretation = document.getElementById("retentionInterpretation");
+  let retentionLevel = "Low";
+  let retentionColor = "text-red-600";
+  
+  if (retention > 70) {
+    retentionLevel = "High";
+    retentionColor = "text-green-600";
+  } else if (retention > 40) {
+    retentionLevel = "Medium";
+    retentionColor = "text-yellow-600";
+  }
+  
+  retentionInterpretation.innerHTML = `<p class="${retentionColor} font-semibold">${retentionLevel} Retention Potential</p>`;
+  
+  // Create or update charts
+  createRiskChart(dropout);
+  createRetentionChart(retention);
+  
+  // Update explanation
+  const explanationDiv = document.getElementById("explanation");
+  explanationDiv.innerHTML = "";
+  
+  // Display all factors from the API response
+  output.forEach(obj => {
+    const key = Object.keys(obj)[0];
+    const value = obj[key];
+    
+    // Skip the main scores and explanation text
+    if (!["dropout_likelihood", "retension_score", "explanation"].includes(key)) {
+      const factorDiv = document.createElement("div");
+      factorDiv.className = "flex items-center";
+      
+      // Determine impact direction based on the numeric value
+      let impactIcon = "fa-minus-circle";
+      let impactColor = "text-gray-500";
+      let impactText = "Neutral impact";
+      
+      if (parseFloat(value) > 0) {
+        impactIcon = "fa-arrow-up";
+        impactColor = "text-red-500";
+        impactText = "Increases dropout risk";
+      } else if (parseFloat(value) < 0) {
+        impactIcon = "fa-arrow-down";
+        impactColor = "text-green-500";
+        impactText = "Decreases dropout risk";
+      }
+      
+      // Format the key for display
+      const displayName = key.replace(/_/g, " ");
+      
+      factorDiv.innerHTML = `
+        <i class="fas ${impactIcon} ${impactColor} mr-2"></i>
+        <div>
+          <p class="font-medium">${displayName}</p>
+          <p class="text-sm text-gray-600">Value: ${value} | ${impactText}</p>
+        </div>
+      `;
+      
+      explanationDiv.appendChild(factorDiv);
+    }
+  });
+  
+  // Update recommendations
+  const recommendationsDiv = document.getElementById("recommendations");
+  recommendationsDiv.innerHTML = "";
+  
+  // Generate recommendations based on risk level
+  const recommendations = generateRecommendations(dropout, inputData);
+  
+  recommendations.forEach(rec => {
+    const recDiv = document.createElement("div");
+    recDiv.className = "flex items-start";
+    recDiv.innerHTML = `
+      <i class="fas fa-lightbulb text-yellow-500 mt-1 mr-3"></i>
+      <p class="text-gray-700">${rec}</p>
+    `;
+    
+    recommendationsDiv.appendChild(recDiv);
+  });
+  
+  // Add explanation section
+  if (explanation) {
+    // Remove any existing explanation section
+    const existingExplanation = document.querySelector("#resultsSection .premium-card .explanation-section");
+    if (existingExplanation) {
+      existingExplanation.remove();
+    }
+    
+    const explanationSection = document.createElement("div");
+    explanationSection.className = "explanation-section mt-8 bg-yellow-50 p-6 rounded-lg";
+    explanationSection.innerHTML = `
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Detailed Explanation</h3>
+      <p class="text-gray-700">${explanation}</p>
+    `;
+    
+    document.querySelector("#resultsSection .premium-card").appendChild(explanationSection);
+  }
+}
+
+function createRiskChart(percentage) {
+  const ctx = document.getElementById('riskChart').getContext('2d');
+  
+  if (riskChart) {
+    riskChart.destroy();
+  }
+  
+  riskChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      datasets: [{
+        data: [percentage, 100 - percentage],
+        backgroundColor: [
+          percentage > 70 ? '#ef4444' : (percentage > 40 ? '#eab308' : '#22c55e'),
+          '#e5e7eb'
+        ],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      cutout: '75%',
+      responsive: false,
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          enabled: false
+        }
+      }
+    }
+  });
+}
+
+function createRetentionChart(percentage) {
+  const ctx = document.getElementById('retentionChart').getContext('2d');
+  
+  if (retentionChart) {
+    retentionChart.destroy();
+  }
+  
+  retentionChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      datasets: [{
+        data: [percentage, 100 - percentage],
+        backgroundColor: [
+          percentage > 70 ? '#22c55e' : (percentage > 40 ? '#eab308' : '#ef4444'),
+          '#e5e7eb'
+        ],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      cutout: '75%',
+      responsive: false,
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          enabled: false
+        }
+      }
+    }
+  });
+}
+
+function generateRecommendations(dropout, data) {
+  const recommendations = [];
+  
+  if (dropout > 70) {
+    recommendations.push("Immediate intervention required. Schedule a meeting with student and their family.");
+    recommendations.push("Consider providing financial assistance or scholarship opportunities.");
+    recommendations.push("Assign a dedicated mentor or counselor to monitor progress weekly.");
+  } else if (dropout > 40) {
+    recommendations.push("Schedule regular check-ins to monitor academic progress.");
+    recommendations.push("Provide additional academic support in challenging subjects.");
+    recommendations.push("Encourage participation in extracurricular activities to increase engagement.");
+  } else {
+    recommendations.push("Continue monitoring academic performance.");
+    recommendations.push("Encourage peer mentoring opportunities.");
+    recommendations.push("Recognize and celebrate achievements to maintain motivation.");
+  }
+  
+  // Add specific recommendations based on input factors
+  if (data.Current_CGPA < 2.5) {
+    recommendations.push("Provide academic tutoring to improve CGPA.");
+  }
+  
+  if (data.Family_Income_Monthly < 2000) {
+    recommendations.push("Explore financial aid options and scholarships.");
+  }
+  
+  if (data.Parents_Employed === 0) {
+    recommendations.push("Consider providing additional support resources for family.");
+  }
+  
+  return recommendations;
+}
+</script>
+</body>
+</html>
